@@ -1,6 +1,13 @@
 locals {
-  main_image     = regex("^(?:(?P<url>[^/]+))?(?:/(?P<image>[^:]*))??(?::(?P<tag>[^:]*))", var.images.main)
-  operator_image = regex("^(?:(?P<url>[^/]+))?(?:/(?P<image>[^:]*))??(?::(?P<tag>[^:]*))", var.images.operator)
+  main_image      = contains(values(var.images), "main") ? regex("^(?:(?P<url>[^/]+))?(?:/(?P<image>[^:]*))??(?::(?P<tag>[^:]*))", var.images.main) : {}
+  operator_image  = contains(values(var.images), "operator") ? regex("^(?:(?P<url>[^/]+))?(?:/(?P<image>[^:]*))??(?::(?P<tag>[^:]*))", var.images.operator) : {}
+  preflight_image = contains(values(var.images), "preflight") ? regex("^(?:(?P<url>[^/]+))?(?:/(?P<image>[^:]*))??(?::(?P<tag>[^:]*))", var.images.preflight) : {}
+
+  main_set_values      = local.main_image != {} ? [{ name = "image.repository", value = "${local.main_image.url}/${local.main_image.image}" }, { name = "image.useDigest", value = "false" }] : []
+  operator_set_values  = local.operator_image != {} ? [{ name = "operator.image.repository", value = "${local.main_image.url}/${local.main_image.image}" }, { name = "operator.image.useDigest", value = "false" }] : []
+  preflight_set_values = local.preflight_image != {} ? [{ name = "preflight.image.repository", value = "${local.main_image.url}/${local.main_image.image}" }, { name = "preflight.image.useDigest", value = "false" }] : []
+
+  set_values = concat(var.set_values, local.main_set_values, local.operator_set_values, local.preflight_set_values)
 }
 
 resource "helm_release" "this" {
@@ -15,32 +22,13 @@ resource "helm_release" "this" {
 
   dynamic "set" {
     iterator = each_item
-    for_each = var.set_values
+    for_each = local.set_values
 
     content {
       name  = each_item.value.name
       value = each_item.value.value
       type  = try(each_item.value.type, null)
     }
-  }
-
-  set {
-    name  = "image.repository"
-    value = "${local.main_image.url}/${local.main_image.image}"
-  }
-
-  set {
-    name  = "operator.image.repository"
-    value = "${local.operator_image.url}/${local.operator_image.image}"
-  }
-
-  set {
-    name  = "image.useDigest"
-    value = "false"
-  }
-  set {
-    name  = "operator.image.useDigest"
-    value = "false"
   }
 
   dynamic "set_sensitive" {
