@@ -69,3 +69,9 @@ variable "helm_config" {
   type        = map(any)
   default     = {}
 }
+
+variable "preflight" {
+  description = "Is it preflight?"
+  type        = bool
+  default     = false
+}

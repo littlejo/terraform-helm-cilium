@@ -1,5 +1,5 @@
 locals {
-  default_preflight_set_values = [
+  default_preflight_set_values = var.preflight ? [
     {
       name  = "preflight.enabled"
       value = "true"
@@ -12,7 +12,7 @@ locals {
       name  = "operator.enabled"
       value = "false"
     },
-  ]
+  ] : []
 
   preflight_set_values = concat(module.preflight_image.set_values, local.default_preflight_set_values)
   set_values           = concat(var.set_values, module.main_image.set_values, module.operator_image.set_values, local.preflight_set_values)
