@@ -36,8 +36,16 @@ variable "release_version" {
 
 variable "images" {
   description = "Map of images"
-  type        = map(string)
-  default     = {}
+  type = object({
+    main      = optional(string)
+    operator  = optional(string)
+    preflight = optional(string)
+  })
+  default = {
+    main      = null
+    operator  = null
+    preflight = null
+  }
 }
 
 variable "values" {

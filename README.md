@@ -30,7 +30,7 @@ No resources.
 | <a name="input_chart"></a> [chart](#input\_chart) | Chart of helm release | `string` | `"cilium"` | no |
 | <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Create namespace ? | `bool` | `false` | no |
 | <a name="input_helm_config"></a> [helm\_config](#input\_helm\_config) | Map of helm config | `map(any)` | `{}` | no |
-| <a name="input_images"></a> [images](#input\_images) | Map of images | `map(string)` | `{}` | no |
+| <a name="input_images"></a> [images](#input\_images) | Map of images | <pre>object({<br>    main      = optional(string)<br>    operator  = optional(string)<br>    preflight = optional(string)<br>  })</pre> | <pre>{<br>  "main": null,<br>  "operator": null,<br>  "preflight": null<br>}</pre> | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of helm release | `string` | `"cilium"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | namespace of helm release | `string` | `"kube-system"` | no |
 | <a name="input_preflight"></a> [preflight](#input\_preflight) | Is it preflight? | `bool` | `false` | no |
