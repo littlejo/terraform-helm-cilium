@@ -41,7 +41,7 @@ module "main_image" {
 module "operator_image" {
   source     = "github.com/littlejo/terraform-helm-images-set-values"
   repo_regex = var.repo_regex
-  repo_url   = var.images.main
+  repo_url   = var.images.operator
   pre_value  = "operator.image"
   type       = "cilium"
 }
@@ -49,7 +49,7 @@ module "operator_image" {
 module "preflight_image" {
   source     = "github.com/littlejo/terraform-helm-images-set-values"
   repo_regex = var.repo_regex
-  repo_url   = var.images.main
+  repo_url   = var.images.preflight
   pre_value  = "preflight.image"
   type       = "cilium"
 }
