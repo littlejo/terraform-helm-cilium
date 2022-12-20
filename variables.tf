@@ -41,11 +41,7 @@ variable "images" {
     operator  = optional(string)
     preflight = optional(string)
   })
-  default = {
-    main      = null
-    operator  = null
-    preflight = null
-  }
+  default = {}
 }
 
 variable "values" {
