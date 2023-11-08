@@ -79,3 +79,59 @@ variable "preflight" {
   type        = bool
   default     = false
 }
+
+variable "ebpf_hostrouting" {
+  description = "Do you want ebpf hostrouting?"
+  type        = bool
+  default     = false
+}
+
+variable "hubble" {
+  description = "Do you want hubble?"
+  type        = bool
+  default     = false
+}
+
+variable "hubble_ui" {
+  description = "Do you want hubble ui?"
+  type        = bool
+  default     = false
+}
+
+variable "default_values" {
+  type = map(list(object({ name = string, value = string })))
+  default = {
+    preflight = [
+      {
+        name  = "preflight.enabled"
+        value = "true"
+      },
+      {
+        name  = "agent"
+        value = "false"
+      },
+      {
+        name  = "operator.enabled"
+        value = "false"
+      },
+    ]
+    ebpf_hostrouting = [
+      {
+        name  = "bpf.masquerade"
+        value = "true"
+      },
+    ]
+    hubble = [
+      {
+        name  = "hubble.relay.enabled"
+        value = "true"
+      },
+    ]
+    hubble_ui = [
+      {
+        name  = "hubble.ui.enabled"
+        value = "true"
+      },
+    ]
+  }
+}

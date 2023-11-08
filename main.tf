@@ -1,21 +1,21 @@
 locals {
-  default_preflight_set_values = var.preflight ? [
-    {
-      name  = "preflight.enabled"
-      value = "true"
-    },
-    {
-      name  = "agent"
-      value = "false"
-    },
-    {
-      name  = "operator.enabled"
-      value = "false"
-    },
-  ] : []
+  default_ebpf_hostrouting_set_values = var.ebpf_hostrouting ? var.default_values.ebpf_hostrouting : []
+  default_hubble_set_values           = var.hubble ? var.default_values.hubble : []
+  default_hubble_ui_set_values        = var.hubble_ui ? concat(var.default_values.hubble_ui, var.default_values.hubble) : []
 
-  preflight_set_values = concat(module.preflight_image.set_values, local.default_preflight_set_values)
-  set_values           = concat(var.set_values, module.main_image.set_values, module.operator_image.set_values, local.preflight_set_values)
+  default_preflight_set_values = var.preflight ? var.default_values.preflight : []
+  preflight_set_values         = concat(module.preflight_image.set_values, local.default_preflight_set_values)
+
+  global_set_values = [
+    var.set_values,
+    module.main_image.set_values,
+    module.operator_image.set_values,
+    local.preflight_set_values,
+    local.default_ebpf_hostrouting_set_values,
+    local.default_hubble_set_values,
+    local.default_hubble_ui_set_values,
+  ]
+  set_values = concat(local.global_set_values...)
 
   default_helm_config = {
     name             = var.name
