@@ -3,6 +3,8 @@ locals {
   default_hubble_set_values           = var.hubble ? var.default_values.hubble : []
   default_hubble_ui_set_values        = var.hubble_ui ? concat(var.default_values.hubble_ui, var.default_values.hubble) : []
 
+  default_azure_set_values = var.azure_resource_group != null ? concat(var.default_values.azure, [{ name = "azure.resourceGroup", value = var.azure_resource_group }]) : []
+
   default_preflight_set_values = var.preflight ? var.default_values.preflight : []
   preflight_set_values         = concat(module.preflight_image.set_values, local.default_preflight_set_values)
 
@@ -14,6 +16,7 @@ locals {
     local.default_ebpf_hostrouting_set_values,
     local.default_hubble_set_values,
     local.default_hubble_ui_set_values,
+    local.default_azure_set_values,
   ]
   set_values = concat(local.global_set_values...)
 

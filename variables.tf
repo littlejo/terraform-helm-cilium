@@ -98,6 +98,12 @@ variable "hubble_ui" {
   default     = false
 }
 
+variable "azure_resource_group" {
+  description = "Suppose that you use aks cluster"
+  type        = string
+  default     = null
+}
+
 variable "default_values" {
   type = map(list(object({ name = string, value = string })))
   default = {
@@ -130,6 +136,16 @@ variable "default_values" {
     hubble_ui = [
       {
         name  = "hubble.ui.enabled"
+        value = "true"
+      },
+    ]
+    azure = [
+      {
+        name  = "nodeinit.enabled"
+        value = "true"
+      },
+      {
+        name  = "aksbyocni.enabled"
         value = "true"
       },
     ]
