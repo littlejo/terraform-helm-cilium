@@ -104,6 +104,12 @@ variable "azure_resource_group" {
   default     = null
 }
 
+variable "kubeproxy_replace_host" {
+  description = "kubeproxy replacement, format: $HOST:$PORT"
+  type        = string
+  default     = null
+}
+
 variable "default_values" {
   type = map(list(object({ name = string, value = string })))
   default = {
@@ -146,6 +152,12 @@ variable "default_values" {
       },
       {
         name  = "aksbyocni.enabled"
+        value = "true"
+      },
+    ]
+    kubeproxy_replace = [
+      {
+        name  = "kubeProxyReplacement"
         value = "true"
       },
     ]

@@ -5,6 +5,8 @@ locals {
 
   default_azure_set_values = var.azure_resource_group != null ? concat(var.default_values.azure, [{ name = "azure.resourceGroup", value = var.azure_resource_group }]) : []
 
+  default_kubeproxy_replace_set_values = var.kubeproxy_replace_host != null ? concat(var.default_values.kubeproxy_replace, [{ name = "k8sServiceHost", value = split(":", var.kubeproxy_replace_host)[0] }, { name = "k8sServicePort", value = split(":", var.kubeproxy_replace_host)[1] }]) : []
+
   default_preflight_set_values = var.preflight ? var.default_values.preflight : []
   preflight_set_values         = concat(module.preflight_image.set_values, local.default_preflight_set_values)
 
@@ -17,6 +19,7 @@ locals {
     local.default_hubble_set_values,
     local.default_hubble_ui_set_values,
     local.default_azure_set_values,
+    local.default_kubeproxy_replace_set_values,
   ]
   set_values = concat(local.global_set_values...)
 
