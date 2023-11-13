@@ -110,6 +110,12 @@ variable "kubeproxy_replace_host" {
   default     = null
 }
 
+variable "gateway_api" {
+  description = "Do you want to enable gateway api?"
+  type        = bool
+  default     = false
+}
+
 variable "default_values" {
   type = map(list(object({ name = string, value = string })))
   default = {
@@ -158,6 +164,12 @@ variable "default_values" {
     kubeproxy_replace = [
       {
         name  = "kubeProxyReplacement"
+        value = "true"
+      },
+    ]
+    gateway_api = [
+      {
+        name  = "gatewayAPI.enabled"
         value = "true"
       },
     ]

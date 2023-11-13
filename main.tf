@@ -2,6 +2,7 @@ locals {
   default_ebpf_hostrouting_set_values = var.ebpf_hostrouting ? var.default_values.ebpf_hostrouting : []
   default_hubble_set_values           = var.hubble ? var.default_values.hubble : []
   default_hubble_ui_set_values        = var.hubble_ui ? concat(var.default_values.hubble_ui, var.default_values.hubble) : []
+  default_gateway_api_set_values      = var.gateway_api ? var.default_values.gateway_api : []
 
   default_azure_set_values = var.azure_resource_group != null ? concat(var.default_values.azure, [{ name = "azure.resourceGroup", value = var.azure_resource_group }]) : []
 
@@ -20,6 +21,7 @@ locals {
     local.default_hubble_ui_set_values,
     local.default_azure_set_values,
     local.default_kubeproxy_replace_set_values,
+    local.default_gateway_api_set_values,
   ]
   set_values = concat(local.global_set_values...)
 
