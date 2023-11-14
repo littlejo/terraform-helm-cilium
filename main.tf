@@ -67,4 +67,8 @@ module "helm" {
   helm_config          = local.helm_config
   set_values           = local.set_values
   set_sensitive_values = var.set_sensitive_values
+
+  depends_on = [
+    kubectl_manifest.gateway_api
+  ]
 }
