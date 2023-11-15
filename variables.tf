@@ -116,6 +116,12 @@ variable "gateway_api" {
   default     = false
 }
 
+variable "upgrade_compatibility" {
+  description = "For upgrade, what is the original version?"
+  type        = string
+  default     = null
+}
+
 variable "default_values" {
   type = map(list(object({ name = string, value = string })))
   default = {
