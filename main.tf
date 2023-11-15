@@ -27,8 +27,10 @@ locals {
   ]
   set_values = concat(local.global_set_values...)
 
+  name = var.preflight && var.name == "cilium" ? "cilium-preflight" : var.name
+
   default_helm_config = {
-    name             = var.name
+    name             = local.name
     repository       = var.repository
     chart            = var.chart
     namespace        = var.namespace
